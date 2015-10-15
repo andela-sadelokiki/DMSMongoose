@@ -69,18 +69,14 @@ describe('User', function() {
 describe('Role', function() {
 
   beforeEach(function(done) {
-    Role.remove({}, function(err) {
-      console.log('role removed');
-    }).then(function() {
+    Role.remove({}, function(err) {}).then(function() {
       dMSController.createRole('Technician').then(function(user) {});
       done();
     });
   });
 
   afterEach(function(done) {
-    Role.remove({}, function(err) {
-      console.log('role removed');
-    }).then(function() {
+    Role.remove({}, function(err) {}).then(function() {
       done();
     });
   });
@@ -109,14 +105,9 @@ describe('Role', function() {
 describe('Document', function() {
 
   beforeEach(function(done) {
-    Document.remove({}, function(err) {
-      console.log('doc removed');
-    }).then(function() {
-      Role.remove({}, function(err) {
-        console.log('roles removed');
-      }).then(function() {
+    Document.remove({}, function(err) {}).then(function() {
+      Role.remove({}, function(err) {}).then(function() {
         dMSController.createDocument('Contract', 'CEO').then(function(Document) {
-          console.log('doc created', Document);
           done();
         });
       });
@@ -124,12 +115,8 @@ describe('Document', function() {
   });
 
   afterEach(function(done) {
-    Document.remove({}, function(err) {
-      console.log('doc removed');
-    }).then(function() {
-      Role.remove({}, function(err) {
-        console.log('roles removed');
-      }).then(function() {
+    Document.remove({}, function(err) {}).then(function() {
+      Role.remove({}, function(err) {}).then(function() {
         done();
       });
     });
@@ -177,70 +164,60 @@ describe('Document', function() {
 
 });
 
-// describe('Search', function() {
+describe('Search', function() {
 
-//   beforeEach(function(done) {
-//     Document.remove({}, function(err) {
-//       console.log('doc destroyed');
-//     }).then(function() {
-//       Role.remove({}, function(err) {
-//         console.log('role destroyed');
-//       }).then(function() {
-//         // dMSController.createDocument('Manual', 'Security').then(function() {
-//         // dMSController.createDocument('Letters', 'Security').then(function() {
-//         dMSController.createDocument('Attendance', 'Class-captain').then(function(result) {
-//           done();
-//         });
-//       });
-//     });
-//   });
+  beforeEach(function(done) {
+    Document.remove({}, function(err) {}).then(function() {
+      Role.remove({}, function(err) {}).then(function() {
+        dMSController.createDocument('Attendance', 'Class-captain').then(function(result) {
+          done();
+        });
+      });
+    });
+  });
 
-//   // afterEach(function(done) {
-//   //   model.documents.destroy({
-//   //     where: {}
-//   //   }).then(function() {
-//   //     model.roles.destroy({
-//   //       where: {}
-//   //     }).then(function() {
-//   //       model.users.destroy({
-//   //         where: {}
-//   //       }).then(function() {
-//   //         done();
-//   //       });
-//   //     });
-//   //   });
-//   // });
+  afterEach(function(done) {
+    Document.remove({}, function(err) {}).then(function() {
+      Role.remove({}, function(err) {}).then(function() {
+        done();
+      });
+    });
+  });
 
-//   it('validates that all documents, limited by a specified number and ordered by published date, that can be accessed by a specified role, are returned when getAllDocumentsByRole is called.', function(done) {
-//     var documents = [];
-//     dMSController.createDocument('Manual', 'Security').then(function() {
-//       dMSController.createDocument('Letters', 'Security').then(function() {
-//         dMSController.getAllDocumentsByRole('Security', 2).then(function(result) {
-//           console.log('docs found', result);
-//           for (var i = 0; i < result.length; i++) {
-//             documents.push(result[i].dataValues.title)
-//           }
-//           expect(documents.length).toBe(2);
-//           expect(documents[0]).toBe('Letters');
-//           expect(documents[1]).toBe('Manual')
-//           done();
-//         });
-//       });
-//     });
-//   });
+  it('validates that all documents, limited by a specified number and ordered by published date, that can be accessed by a specified role, are returned when getAllDocumentsByRole is called.', function(done) {
+    var documents = [];
+    dMSController.createDocument('Manual', 'Class-captain').then(function() {
+      dMSController.createDocument('Letters', 'Class-captain').then(function() {
+        dMSController.getAllDocumentsByRole('Class-captain', 3).then(function(result) {
+          for (var i = 0; i < result.length; i++) {
+            documents.push(result[i].title);
+          }
+          expect(documents.length).toBe(3);
+          expect(documents[0]).toBe('Attendance');
+          expect(documents[1]).toBe('Manual');
+          done();
+        });
+      });
+    });
+  });
 
-//   it('validates that all documents, limited by a specified number, that were published on a certain date, are returned when getAllDocumentsByDate is called.', function(done) {
-//     var documents = [];
-//     dMSController.getAllDocumentsByDate('13-9-2015', 3).then(function(result) {
-//       for (var i = 0; i < result.length; i++) {
-//         documents.push(result[i].title)
-//       }
-//       expect(documents.length).toBe(3);
-//       expect(documents[0]).toBe('Manual');
-//       expect(documents[1]).toBe('Letters');
-//       expect(documents[2]).toBe('Attendance');
-//       done();
-//     });
-//   });
+  it('validates that all documents, limited by a specified number, that were published on a certain date, are returned when getAllDocumentsByDate is called.', function(done) {
+    var documents = [];
+    dMSController.createDocument('Manual', 'Class-captain').then(function() {
+      dMSController.createDocument('Letters', 'Class-captain').then(function() {
+        dMSController.getAllDocumentsByDate('15-9-2015', 2).then(function(result) {
+          for (var i = 0; i < result.length; i++) {
+            documents.push(result[i].title);
+          }
+          expect(documents.length).toBe(2);
+          expect(documents[0]).toBe('Attendance');
+          expect(documents[1]).toBe('Manual');
+          done();
+        });
+      });
+    });
+  });
 
-// });
+});
+
+
