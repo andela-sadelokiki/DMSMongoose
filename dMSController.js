@@ -10,6 +10,7 @@ var User = mongoose.model('User'),
 
 module.exports = {
 
+  //Method finds or creates a role, creates a User and assigns role to created User
   createUser: function(first, last, role) {
     return Role.findOne({
       title: role
@@ -32,6 +33,7 @@ module.exports = {
     });
   },
 
+  //Method returns all created users
   getAllUsers: function() {
 
     return User.find({}, function(err, users) {
@@ -42,6 +44,7 @@ module.exports = {
     });
   },
 
+  //Method creates a role
   createRole: function(title) {
     return Role.create({
       title: title
@@ -53,16 +56,19 @@ module.exports = {
     });
   },
 
+  //Method returns all created roles
   getAllRoles: function() {
     return Role.find({}, function(err, roles) {
       if (err) {
-        console.log('failed to find', err);
         return err;
       }
       return roles;
     });
   },
 
+  /*Method finds or creates a role, creates a document,
+  and assigns the role as permitted role to access the document
+  */
   createDocument: function(title, accessedBy) {
     var dateCreated = new Date();
     var currentDate = dateCreated.getDate();
@@ -91,6 +97,7 @@ module.exports = {
     });
   },
 
+  //Method gets all the documents
   getAllDocuments: function() {
     return Document.find({}, function(err, documents) {
       if (err) {
@@ -100,32 +107,30 @@ module.exports = {
     });
   },
 
+  /*Method gets all documents based on roles that have access
+  to the document and the limit specified
+  */
   getAllDocumentsByRole: function(role, limit) {
-    return Document.find({
-      role: role
-    }).limit(limit).sort({
-      date: 'descending'
-    }).then(function(err, documents) {
-      if (err) {
-        console.log('errrro of life', err);
-        return err;
-      }
-      console.log('docs are here');
-      return documents;
-    }).catch(function(err) {
-      console.log('pls show me', err);
+    return Role.find({
+      title: role
+    }).then(function(role) {
+      return Document.find({
+        rolesWithAccess: role[0]._id
+      }).limit(limit).then(function(documents) {
+        return documents;
+      });
     });
   },
 
+  /*Method gets all documents based on roles that have
+  access to the document and the limit specified
+  */
   getAllDocumentsByDate: function(date, limit) {
     return Document.find({
-      createdOn: date,
-    }, function(err, documents) {
-      if (err) {
-        return err;
-      }
+      createdOn: date
+    }).limit(limit).then(function(documents) {
       return documents;
     });
-  }
+  },
 
 };
