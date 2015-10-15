@@ -122,7 +122,7 @@ module.exports = {
     });
   },
 
-  /*Method gets all documents based on roles that have
+  /*Method gets all documents based on date created that have
   access to the document and the limit specified
   */
   getAllDocumentsByDate: function(date, limit) {
