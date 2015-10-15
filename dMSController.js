@@ -122,8 +122,8 @@ module.exports = {
     });
   },
 
-  /*Method gets all documents based on date created that have
-  access to the document and the limit specified
+  /*Method gets all documents based on date created
+  document was created and the limit specified
   */
   getAllDocumentsByDate: function(date, limit) {
     return Document.find({
