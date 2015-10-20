@@ -27,8 +27,8 @@ module.exports = {
         firstname: first,
         lastname: last,
         role_name: foundRole
-      }).then(function(doc) {
-        return doc;
+      }).then(function(user) {
+        return user;
       });
     });
   },
@@ -122,8 +122,8 @@ module.exports = {
     });
   },
 
-  /*Method gets all documents based on date created
-  document was created and the limit specified
+  /*Method gets all documents based on date document was
+  created and the limit specified
   */
   getAllDocumentsByDate: function(date, limit) {
     return Document.find({

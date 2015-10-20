@@ -203,9 +203,15 @@ describe('Search', function() {
 
   it('validates that all documents, limited by a specified number, that were published on a certain date, are returned when getAllDocumentsByDate is called.', function(done) {
     var documents = [];
+    var dateCreated = new Date();
+    var currentDate = dateCreated.getDate();
+    var currentMonth = dateCreated.getMonth();
+    var currentYear = dateCreated.getFullYear();
+    var publishedOn = currentDate + '-' + currentMonth + '-' + currentYear;
+
     dMSController.createDocument('Manual', 'Class-captain').then(function() {
       dMSController.createDocument('Letters', 'Class-captain').then(function() {
-        dMSController.getAllDocumentsByDate('15-9-2015', 2).then(function(result) {
+        dMSController.getAllDocumentsByDate(publishedOn, 2).then(function(result) {
           for (var i = 0; i < result.length; i++) {
             documents.push(result[i].title);
           }
@@ -219,5 +225,3 @@ describe('Search', function() {
   });
 
 });
-
-
