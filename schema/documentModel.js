@@ -6,7 +6,8 @@ var mongoose = require("mongoose"),
 var documentSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   createdOn: {
     type: String

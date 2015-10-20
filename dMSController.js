@@ -35,7 +35,6 @@ module.exports = {
 
   //Method returns all created users
   getAllUsers: function() {
-
     return User.find({}, function(err, users) {
       if (err) {
         return err;
