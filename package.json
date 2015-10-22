@@ -14,5 +14,15 @@
   },
   "devDependencies": {
     "jasmine-node": "^1.14.5"
+  },
+  "bin": {
+    "createnewuser": "exec.js",
+    "getallusers": "exec.js",
+    "createrole": "exec.js",
+    "getallroles": "exec.js",
+    "createdocument": "exec.js",
+    "getalldocuments": "exec.js",
+    "getalldocumentsbyrole": "exec.js",
+    "getalldocumentsbydate": "exec.js"
   }
 }

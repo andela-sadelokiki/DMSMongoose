@@ -14,6 +14,7 @@ describe('User', function() {
     User.remove({}, function(err) {}).then(function() {
       Role.remove({}, function(err) {}).then(function() {
         dMSController.createUser('tola', 'badmus', 'Attendant').then(function(user) {
+          console.log(user);
           done();
         });
       });
